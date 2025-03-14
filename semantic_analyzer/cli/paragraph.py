@@ -1,12 +1,14 @@
 import click
+from typing import Optional
 from ..analysis.paragraph_analysis import analyze_paragraph_similarity
+from ..utils.models import ParagraphAnalysisResult
 
 @click.group()
-def paragraph_group():
+def paragraph():
     """Paragraph-level semantic analysis commands"""
     pass
 
-@paragraph_group.command()
+@paragraph.command()
 @click.option('--near-paragraphs', '-n', multiple=True, help='Paragraphs that should be semantically similar')
 @click.option('--far-paragraphs', '-f', multiple=True, help='Paragraphs that should be semantically different')
 @click.option('--output-format', '-o', type=click.Choice(['json', 'table']), default='table',

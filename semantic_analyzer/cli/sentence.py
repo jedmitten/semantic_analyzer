@@ -1,12 +1,14 @@
 import click
+from typing import Optional
 from ..analysis.sentence_analysis import analyze_sentence_similarity
+from ..utils.models import SentenceAnalysisResult
 
 @click.group()
-def sentence_group():
+def sentence():
     """Sentence-level semantic analysis commands"""
     pass
 
-@sentence_group.command()
+@sentence.command()
 @click.option('--near-sentences', '-n', multiple=True, help='Sentences that should be semantically similar')
 @click.option('--far-sentences', '-f', multiple=True, help='Sentences that should be semantically different')
 @click.option('--output-format', '-o', type=click.Choice(['json', 'table']), default='table',

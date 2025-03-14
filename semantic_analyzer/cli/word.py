@@ -1,14 +1,16 @@
 import click
+from typing import Optional
 from ..analysis.word_analysis import analyze_word_similarity
+from ..utils.models import WordAnalysisResult
 from ..utils.vector_store import DEFAULT_VECTOR_PATH
 import os
 
 @click.group()
-def word_group():
+def word():
     """Word-level semantic analysis commands"""
     pass
 
-@word_group.command()
+@word.command()
 @click.option('--near-words', '-n', multiple=True, help='Words that should be semantically similar')
 @click.option('--far-words', '-f', multiple=True, help='Words that should be semantically different')
 @click.option('--top-n', '-t', default=5, help='Number of similar words to return')
