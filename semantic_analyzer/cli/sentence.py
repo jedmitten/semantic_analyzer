@@ -1,7 +1,5 @@
 import click
-from typing import Optional
 from ..analysis.sentence_analysis import analyze_sentence_similarity
-from ..utils.models import SentenceAnalysisResult
 
 @click.group()
 def sentence():

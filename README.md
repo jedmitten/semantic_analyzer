@@ -35,20 +35,21 @@ The package provides three main commands: `word`, `sentence`, and `paragraph`. E
 ### Word Analysis
 
 ```bash
-# Basic usage with near words
+# Basic usage with near words (vector path required via option or environment variable)
+semantic-analyzer word analyze -n "heinous" -n "cruel" -p /path/to/your/GoogleNews-vectors-negative300.bin
+
+# Using environment variable for vector path
+export WORD_VECTOR_PATH=/path/to/your/GoogleNews-vectors-negative300.bin
 semantic-analyzer word analyze -n "heinous" -n "cruel"
 
 # Using far words
-semantic-analyzer word analyze -f "back" -f "inhuman"
+semantic-analyzer word analyze -f "back" -f "inhuman" -p /path/to/your/GoogleNews-vectors-negative300.bin
 
 # Combining near and far words
-semantic-analyzer word analyze -n "heinous" -n "cruel" -f "back" -f "inhuman"
-
-# Specifying custom vector path
-semantic-analyzer word analyze -n "heinous" -p /path/to/your/GoogleNews-vectors-negative300.bin
+semantic-analyzer word analyze -n "heinous" -n "cruel" -f "back" -f "inhuman" -p /path/to/your/GoogleNews-vectors-negative300.bin
 
 # JSON output format
-semantic-analyzer word analyze -n "heinous" -o json
+semantic-analyzer word analyze -n "heinous" -p /path/to/your/GoogleNews-vectors-negative300.bin -o json
 ```
 
 Options:
@@ -56,49 +57,121 @@ Options:
 - `-f, --far-words`: Words that should be semantically different (optional)
 - `-t, --top-n`: Number of similar words to return (default: 5)
 - `-o, --output-format`: Output format (json or table, default: table)
-- `-p, --vector-path`: Path to the Word2Vec model file
+- `-p, --vector-path`: Path to the Word2Vec model file (can also be set via WORD_VECTOR_PATH env var)
 
 ### Sentence Analysis
 
 ```bash
-# Basic usage with near sentences
-semantic-analyzer sentence analyze -n "The cat is on the mat" -n "A feline rests on the rug"
+# Basic usage with sentences to analyze
+semantic-analyzer sentence analyze -s "The quick brown fox jumps over the lazy dog." -s "A fast brown fox leaps over a sleepy dog."
 
-# Using far sentences
-semantic-analyzer sentence analyze -f "The dog is in the yard"
+# Using input file (CSV)
+semantic-analyzer sentence analyze -f sentences.csv
 
-# Combining near and far sentences
-semantic-analyzer sentence analyze -n "The cat is on the mat" -f "The dog is in the yard"
+# Using input file (JSON)
+semantic-analyzer sentence analyze -f sentences.json
+
+# Using input file (TOML)
+semantic-analyzer sentence analyze -f sentences.toml
 
 # JSON output format
-semantic-analyzer sentence analyze -n "The cat is on the mat" -o json
+semantic-analyzer sentence analyze -s "The quick brown fox jumps over the lazy dog." -o json
 ```
 
 Options:
-- `-n, --near-sentences`: Sentences that should be semantically similar (optional)
-- `-f, --far-sentences`: Sentences that should be semantically different (optional)
+- `-s, --sentences`: Sentences to analyze (optional if --input-file is provided)
+- `-f, --input-file`: Input file (CSV, JSON, or TOML) containing sentences (optional if --sentences is provided)
 - `-o, --output-format`: Output format (json or table, default: table)
 
 ### Paragraph Analysis
 
 ```bash
-# Basic usage with near paragraphs
-semantic-analyzer paragraph analyze -n "First paragraph text..." -n "Similar paragraph text..."
+# Basic usage with paragraphs to analyze
+semantic-analyzer paragraph analyze -p "The first paragraph of text to analyze. It can contain multiple sentences." -p "Another paragraph to analyze with different content."
 
-# Using far paragraphs
-semantic-analyzer paragraph analyze -f "Different paragraph text..."
+# Using input file (CSV)
+semantic-analyzer paragraph analyze -f paragraphs.csv
 
-# Combining near and far paragraphs
-semantic-analyzer paragraph analyze -n "First paragraph text..." -f "Different paragraph text..."
+# Using input file (JSON)
+semantic-analyzer paragraph analyze -f paragraphs.json
+
+# Using input file (TOML)
+semantic-analyzer paragraph analyze -f paragraphs.toml
 
 # JSON output format
-semantic-analyzer paragraph analyze -n "First paragraph text..." -o json
+semantic-analyzer paragraph analyze -p "The first paragraph of text to analyze." -o json
 ```
 
 Options:
-- `-n, --near-paragraphs`: Paragraphs that should be semantically similar (optional)
-- `-f, --far-paragraphs`: Paragraphs that should be semantically different (optional)
+- `-p, --paragraphs`: Paragraphs to analyze (optional if --input-file is provided)
+- `-f, --input-file`: Input file (CSV, JSON, or TOML) containing paragraphs (optional if --paragraphs is provided)
 - `-o, --output-format`: Output format (json or table, default: table)
+
+## Input File Formats
+
+The package supports flexible input formats for sentences and paragraphs. Files can be in CSV, JSON, or TOML format, and the content type can be specified either explicitly or implicitly.
+
+### CSV Format
+```csv
+# With explicit type
+sentences
+"The first sentence to analyze."
+"Another sentence for analysis."
+
+# Without explicit type (first column is used)
+text
+"The first sentence to analyze."
+"Another sentence for analysis."
+```
+
+### JSON Format
+```json
+# With explicit type
+{
+  "sentences": [
+    "The first sentence to analyze.",
+    "Another sentence for analysis."
+  ]
+}
+
+# Without explicit type (array)
+[
+  "The first sentence to analyze.",
+  "Another sentence for analysis."
+]
+
+# Without explicit type (first array value)
+{
+  "text": [
+    "The first sentence to analyze.",
+    "Another sentence for analysis."
+  ]
+}
+```
+
+### TOML Format
+```toml
+# With explicit type
+sentences = [
+  "The first sentence to analyze.",
+  "Another sentence for analysis."
+]
+
+# Without explicit type (array)
+[
+  "The first sentence to analyze.",
+  "Another sentence for analysis."
+]
+
+# Without explicit type (first array value)
+[text]
+values = [
+  "The first sentence to analyze.",
+  "Another sentence for analysis."
+]
+```
+
+Note: For paragraph analysis, use the same format but with "paragraphs" as the key/column name instead of "sentences". If no type-specific key is provided, the first available array or column will be used.
 
 ## Output Format
 

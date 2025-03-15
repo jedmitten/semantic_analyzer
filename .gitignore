@@ -172,7 +172,6 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-semantic_analyzer/analysis/paragraph_analysis.py
 
 # General
 .DS_Store
@@ -180,7 +179,8 @@ semantic_analyzer/analysis/paragraph_analysis.py
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*

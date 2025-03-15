@@ -1,7 +1,5 @@
 import click
-from typing import Optional
 from ..analysis.paragraph_analysis import analyze_paragraph_similarity
-from ..utils.models import ParagraphAnalysisResult
 
 @click.group()
 def paragraph():
