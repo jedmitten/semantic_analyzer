@@ -1,5 +1,3 @@
-from typing import Tuple
-from gensim.models import KeyedVectors
 from ..utils.models import WordAnalysisResult
 from ..utils.vector_store import get_word_vectors
 

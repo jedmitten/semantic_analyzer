@@ -1,5 +1,4 @@
 from gensim.models import KeyedVectors
-from pathlib import Path
 import os
 
 # Default path to the word vectors file

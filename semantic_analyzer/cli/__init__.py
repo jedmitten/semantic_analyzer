@@ -1,16 +1,14 @@
 import click
 from .word import word
-from .sentence import sentence
-from .paragraph import paragraph
+from .text import text
 
 @click.group()
 def cli():
-    """Semantic Analysis Tool for Words, Sentences, and Paragraphs"""
+    """Semantic Analysis Tool for Words and Text"""
     pass
 
 cli.add_command(word)
-cli.add_command(sentence)
-cli.add_command(paragraph)
+cli.add_command(text)
 
 if __name__ == '__main__':
     cli()

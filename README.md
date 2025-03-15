@@ -1,12 +1,11 @@
 # Semantic Analyzer
 
-A Python package for analyzing semantic similarity between words, sentences, and paragraphs using state-of-the-art language models.
+A Python package for analyzing semantic similarity between words and text using state-of-the-art language models.
 
 ## Features
 
 - Word-level semantic analysis using Google News Word2Vec model
-- Sentence-level semantic analysis using Sentence Transformers
-- Paragraph-level semantic analysis using Sentence Transformers
+- Text-level semantic analysis using Sentence Transformers
 - Flexible input options for near and far semantic relationships
 - JSON and table output formats
 - Command-line interface with intuitive options
@@ -26,11 +25,11 @@ uv pip install -e .
 
 3. Download the required models:
    - For word analysis: Download the Google News Word2Vec model from [Google's word2vec page](https://code.google.com/archive/p/word2vec/)
-   - For sentence/paragraph analysis: The Sentence Transformer model will be downloaded automatically on first use
+   - For text analysis: The Sentence Transformer model will be downloaded automatically on first use
 
 ## Usage
 
-The package provides three main commands: `word`, `sentence`, and `paragraph`. Each command has an `analyze` subcommand with similar options.
+The package provides two main commands: `word` and `text`. Each command has an `analyze` subcommand with similar options.
 
 ### Word Analysis
 
@@ -59,119 +58,62 @@ Options:
 - `-o, --output-format`: Output format (json or table, default: table)
 - `-p, --vector-path`: Path to the Word2Vec model file (can also be set via WORD_VECTOR_PATH env var)
 
-### Sentence Analysis
+### Text Analysis
 
 ```bash
-# Basic usage with sentences to analyze
-semantic-analyzer sentence analyze -s "The quick brown fox jumps over the lazy dog." -s "A fast brown fox leaps over a sleepy dog."
+# Basic usage with text segments to analyze
+semantic-analyzer text analyze -t "The quick brown fox jumps over the lazy dog." -t "A fast brown fox leaps over a sleepy dog."
 
 # Using input file (CSV)
-semantic-analyzer sentence analyze -f sentences.csv
+semantic-analyzer text analyze -f texts.csv
 
 # Using input file (JSON)
-semantic-analyzer sentence analyze -f sentences.json
+semantic-analyzer text analyze -f texts.json
 
 # Using input file (TOML)
-semantic-analyzer sentence analyze -f sentences.toml
+semantic-analyzer text analyze -f texts.toml
 
 # JSON output format
-semantic-analyzer sentence analyze -s "The quick brown fox jumps over the lazy dog." -o json
+semantic-analyzer text analyze -t "The quick brown fox jumps over the lazy dog." -o json
 ```
 
 Options:
-- `-s, --sentences`: Sentences to analyze (optional if --input-file is provided)
-- `-f, --input-file`: Input file (CSV, JSON, or TOML) containing sentences (optional if --sentences is provided)
-- `-o, --output-format`: Output format (json or table, default: table)
-
-### Paragraph Analysis
-
-```bash
-# Basic usage with paragraphs to analyze
-semantic-analyzer paragraph analyze -p "The first paragraph of text to analyze. It can contain multiple sentences." -p "Another paragraph to analyze with different content."
-
-# Using input file (CSV)
-semantic-analyzer paragraph analyze -f paragraphs.csv
-
-# Using input file (JSON)
-semantic-analyzer paragraph analyze -f paragraphs.json
-
-# Using input file (TOML)
-semantic-analyzer paragraph analyze -f paragraphs.toml
-
-# JSON output format
-semantic-analyzer paragraph analyze -p "The first paragraph of text to analyze." -o json
-```
-
-Options:
-- `-p, --paragraphs`: Paragraphs to analyze (optional if --input-file is provided)
-- `-f, --input-file`: Input file (CSV, JSON, or TOML) containing paragraphs (optional if --paragraphs is provided)
+- `-t, --texts`: Text segments to analyze (optional if --input-file is provided)
+- `-f, --input-file`: Input file (CSV, JSON, or TOML) containing texts (optional if --texts is provided)
 - `-o, --output-format`: Output format (json or table, default: table)
 
 ## Input File Formats
 
-The package supports flexible input formats for sentences and paragraphs. Files can be in CSV, JSON, or TOML format, and the content type can be specified either explicitly or implicitly.
+The tool supports reading input from CSV, JSON, or TOML files. Each command group (words, texts) requires its specific key in the input file:
 
 ### CSV Format
 ```csv
-# With explicit type
-sentences
-"The first sentence to analyze."
-"Another sentence for analysis."
-
-# Without explicit type (first column is used)
-text
-"The first sentence to analyze."
-"Another sentence for analysis."
+words
+"example"
+"test"
 ```
 
 ### JSON Format
 ```json
-# With explicit type
 {
-  "sentences": [
-    "The first sentence to analyze.",
-    "Another sentence for analysis."
-  ]
-}
-
-# Without explicit type (array)
-[
-  "The first sentence to analyze.",
-  "Another sentence for analysis."
-]
-
-# Without explicit type (first array value)
-{
-  "text": [
-    "The first sentence to analyze.",
-    "Another sentence for analysis."
-  ]
+    "words": ["example", "test"]
 }
 ```
 
 ### TOML Format
 ```toml
-# With explicit type
-sentences = [
-  "The first sentence to analyze.",
-  "Another sentence for analysis."
-]
+words = ["example", "test"]
 
-# Without explicit type (array)
-[
-  "The first sentence to analyze.",
-  "Another sentence for analysis."
-]
-
-# Without explicit type (first array value)
-[text]
-values = [
-  "The first sentence to analyze.",
-  "Another sentence for analysis."
+# TOML also supports multiline strings in arrays:
+texts = [
+    """This is a long text segment
+    that spans multiple lines
+    but is still a single segment.""",
+    "This is another text segment."
 ]
 ```
 
-Note: For paragraph analysis, use the same format but with "paragraphs" as the key/column name instead of "sentences". If no type-specific key is provided, the first available array or column will be used.
+Note: Each command group (words, texts) requires its specific key in the input file. The examples above show the format for each type of input.
 
 ## Output Format
 

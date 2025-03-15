@@ -35,73 +35,29 @@ class WordAnalysisResult:
         return "\n".join(lines)
 
 @dataclass
-class SentenceAnalysisResult:
-    near_sentences: list[str]
-    far_sentences: list[str]
-    similarity_scores: list[Tuple[Tuple[str, str], float]]
+class TextAnalysisResult:
+    texts: list[str]
+    analyses: list[dict]
     
     def to_json(self) -> str:
         """Convert the result to a JSON string"""
         return json.dumps({
-            'near_sentences': self.near_sentences,
-            'far_sentences': self.far_sentences,
-            'similarity_scores': [
-                {
-                    'sentence1': pair[0],
-                    'sentence2': pair[1],
-                    'similarity': score
-                }
-                for pair, score in self.similarity_scores
-            ]
+            'texts': self.texts,
+            'analyses': self.analyses
         }, indent=2)
     
     def to_table(self) -> str:
         """Convert the result to a formatted table string"""
-        lines = ["Sentence Similarity Analysis", "=" * 50]
-        if self.near_sentences:
-            lines.append(f"\nNear sentences: {', '.join(self.near_sentences)}")
-        if self.far_sentences:
-            lines.append(f"Far sentences: {', '.join(self.far_sentences)}")
-        lines.append("\nSimilarity Scores:")
-        lines.append("-" * 80)
-        lines.append(f"{'Sentence 1':<40} {'Sentence 2':<40} {'Score':<10}")
-        lines.append("-" * 80)
-        for (sent1, sent2), score in self.similarity_scores:
-            lines.append(f"{sent1[:37]+'...':<40} {sent2[:37]+'...':<40} {score:.4f}")
-        return "\n".join(lines)
-
-@dataclass
-class ParagraphAnalysisResult:
-    near_paragraphs: list[str]
-    far_paragraphs: list[str]
-    similarity_scores: list[Tuple[Tuple[str, str], float]]
-    
-    def to_json(self) -> str:
-        """Convert the result to a JSON string"""
-        return json.dumps({
-            'near_paragraphs': self.near_paragraphs,
-            'far_paragraphs': self.far_paragraphs,
-            'similarity_scores': [
-                {
-                    'paragraph1': pair[0],
-                    'paragraph2': pair[1],
-                    'similarity': score
-                }
-                for pair, score in self.similarity_scores
-            ]
-        }, indent=2)
-    
-    def to_table(self) -> str:
-        """Convert the result to a formatted table string"""
-        lines = ["Paragraph Similarity Analysis", "=" * 50]
-        if self.near_paragraphs:
-            lines.append(f"\nNear paragraphs: {', '.join(self.near_paragraphs)}")
-        if self.far_paragraphs:
-            lines.append(f"Far paragraphs: {', '.join(self.far_paragraphs)}")
-        lines.append("\nSimilarity Scores:")
-        lines.append("-" * 80)
-        lines.append(f"{'Paragraph 1':<40} {'Paragraph 2':<40} {'Score':<10}")
-        lines.append("-" * 80)
-        for (para1, para2), score in self.similarity_scores:
-            lines.append(f"{para1[:37]+'...':<40} {para2[:37]+'...':<40} {score:.4f}")
+        lines = ["Text Qualitative Analysis", "=" * 50]
+        
+        for analysis in self.analyses:
+            lines.append(f"\nText: {analysis['text'][:100]}...")
+            lines.append("-" * 50)
+            lines.append(f"Sentiment: {analysis['sentiment']['label']} ({analysis['sentiment']['score']:.2f})")
+            lines.append(f"Key Themes: {analysis['key_themes']}")
+            lines.append(f"Main Topics: {', '.join(analysis['main_topics']['labels'][:3])}")
+            lines.append(f"Length: {analysis['length']} words")
+            lines.append(f"Complexity: {analysis['complexity']:.2f} words per sentence")
+            lines.append(f"Readability: {analysis['readability']:.2f} words per line")
+        
         return "\n".join(lines) 

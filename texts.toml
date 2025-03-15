@@ -1,0 +1,63 @@
+words = [
+    # Positive emotions
+    "joyful",
+    "exuberant",
+    "serene",
+    
+    # Negative emotions
+    "despondent",
+    "melancholic",
+    "anxious",
+    
+    # Neutral concepts
+    "contemplative",
+    "methodical",
+    "pragmatic",
+    
+    # Complex emotions
+    "bittersweet",
+    "nostalgic",
+    "resilient"
+]
+
+texts = [
+    # Technology - Positive
+    """The new quantum computing breakthrough promises to revolutionize cryptography and drug discovery, 
+    potentially solving complex problems that would take classical computers millennia to process.""",
+    
+    # Environment - Negative
+    """Rising global temperatures have led to unprecedented coral bleaching events, threatening the survival 
+    of entire marine ecosystems and the communities that depend on them.""",
+    
+    # Arts - Neutral
+    """The artist's latest exhibition explores the intersection of traditional Japanese calligraphy and 
+    modern digital art, creating a unique fusion of past and present.""",
+    
+    # Health - Positive
+    """Recent clinical trials have shown remarkable success in treating previously untreatable forms of cancer, 
+    offering hope to thousands of patients worldwide.""",
+    
+    # Politics - Negative
+    """The controversial policy has sparked widespread protests across the country, with citizens expressing 
+    deep concerns about its potential impact on civil liberties.""",
+    
+    # Science - Positive
+    """Scientists have discovered a new species of deep-sea creature that challenges our understanding of 
+    life's adaptability to extreme environments.""",
+    
+    # Business - Neutral
+    """The company's quarterly report shows steady growth in emerging markets, though analysts remain 
+    cautious about potential regulatory challenges ahead.""",
+    
+    # Education - Positive
+    """The innovative teaching program has significantly improved student engagement and test scores, 
+    particularly in underserved communities.""",
+    
+    # Sports - Negative
+    """The team's unexpected loss in the championship game has left fans devastated and raised questions 
+    about the coach's future with the organization.""",
+    
+    # Technology - Mixed
+    """While the new AI model shows impressive capabilities in natural language processing, concerns about 
+    its potential misuse and ethical implications continue to grow."""
+] 
